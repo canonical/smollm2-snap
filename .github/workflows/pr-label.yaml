@@ -1,4 +1,4 @@
-name: Build+Test PR
+name: CI
 
 on:
   pull_request:
@@ -9,7 +9,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  pr:
+  build-test:
+    name: ${{ github.event.label.name }} # Use the trigger label to indicate which tasks will be performed
     uses: canonical/inference-snaps-dev/.github/workflows/reuse-pr-build-test.yaml@reuse-pr-workflow # TODO: v2
     with:
       trigger-label: ${{ github.event.label.name }}
@@ -39,3 +40,4 @@ jobs:
       snap-name: smollm2 # TODO: infer from the snap
     secrets:
       store-credentials: ${{ secrets.STORE_LOGIN_PR }}
+      github-token: ${{ secrets.GITHUB_TOKEN }}
