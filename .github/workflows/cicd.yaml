@@ -1,0 +1,36 @@
+name: CICD
+
+on:
+  push:
+    branches:
+      - main
+  
+  workflow_dispatch: # manual trigger 
+
+
+# Keep one CICD run active at a time so publish/test/promote happen in order
+concurrency:
+  group: ${{ github.workflow }}
+  queue: max
+
+jobs:
+  cicd:
+    if: github.repository == 'canonical/smollm2-snap' # do not run on forks
+    uses: canonical/inference-snaps-dev/.github/workflows/reuse-cicd.yaml@v2
+    with:
+      build-runner: |
+        [
+          ["amd64", "resolute", "self-hosted"]
+        ]
+      #   ["arm64", "resolute", "self-hosted", "medium"]
+      build-init-script: 'download-models.sh'
+      store-track: latest
+      snap-name: smollm2
+      smoke-test-engine: cpu
+      smoke-test-runner: |
+        [
+          "ubuntu-24.04"
+        ]
+      #   "ubuntu-24.04-arm"
+    secrets:
+      store-credentials: ${{ secrets.STORE_LOGIN_MAIN }}
