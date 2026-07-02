@@ -1,0 +1,41 @@
+name: Build+Test PR
+
+on:
+  pull_request:
+    types: [ labeled ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  pr:
+    uses: canonical/inference-snaps-dev/.github/workflows/reuse-pr-build-test.yaml@reuse-pr-workflow # TODO: v2
+    with:
+      trigger-label: ${{ github.event.label.name }}
+      pr-number: "${{ github.event.pull_request.number }}"
+      build-runners: |
+        [
+          ["amd64", "resolute", "self-hosted"],
+          ["arm64", "resolute", "self-hosted"]
+        ]
+      test-jobs-matrix: |
+        [
+          {
+            "job-queue": "maas-systemtests-amd64",
+            "provision-data": "distro: noble",
+            "select-engine": "cpu"
+          },
+          {
+            "job-queue": "anbox-nvidia-amd64",
+            "provision-data": "distro: noble",
+            "install-nvidia-driver-version": 595,
+            "select-engine": "nvidia-gpu",
+            "expected-tps": 9.4
+          }
+        ]
+      test-chat-tps: true
+      test-image-prompt: true
+      snap-name: smollm2 # TODO: infer from the snap
+    secrets:
+      store-credentials: ${{ secrets.STORE_LOGIN_PR }}

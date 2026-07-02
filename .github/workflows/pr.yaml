@@ -1,8 +1,14 @@
-name: Static check
+name: Static checks
 on: [pull_request]
 
 jobs:
-  validate:
+  cla-check:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Check if CLA signed
+        uses: canonical/has-signed-canonical-cla@v2
+        
+  validate: # TODO: pick a better name
     runs-on: [ ubuntu-latest ]
     steps:
 
