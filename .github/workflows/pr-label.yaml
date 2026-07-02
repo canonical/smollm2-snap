@@ -14,12 +14,6 @@ permissions:
   actions: read
 
 jobs:
-  print-group:
-    runs-on: ubuntu-slim
-    steps:
-      - name: Print concurrency group
-        run: |
-          echo "Concurrency group: ${{ github.workflow }}-${{ github.event.pull_request.number }}"
 
   build-test:
     name: ${{ github.event.label.name }} # Use the trigger label to indicate which tasks will be performed
