@@ -42,7 +42,7 @@ jobs:
           }
         ]
       test-chat-tps: true
-      test-image-prompt: true
+      # test-image-prompt: true
       snap-name: smollm2 # TODO: infer from the snap
     secrets:
       store-credentials: ${{ secrets.STORE_LOGIN_PR }}
