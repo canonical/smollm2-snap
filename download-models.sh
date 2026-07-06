@@ -3,8 +3,8 @@
 set -euo pipefail
 
 # Setup Hugging Face CLI
-sudo apt-get -qq update
-sudo apt-get -qq install -y pipx
+sudo apt-get update
+sudo apt-get install -y pipx
 pipx install huggingface_hub
 
 # SmolLM2 135M Q4_K_M GGUF
