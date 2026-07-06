@@ -16,7 +16,8 @@ permissions:
 jobs:
 
   build-test:
-    name: ${{ github.event.label.name }} # Use the trigger label to indicate which tasks will be performed
+    # The applied label is used to select build/test tasks and as job's display name.
+    name: ${{ github.event.label.name }}
     uses: canonical/inference-snaps-dev/.github/workflows/reuse-pr-build-test.yaml@reuse-pr-workflow # TODO: v2
     with:
       trigger-label: ${{ github.event.label.name }}
@@ -43,7 +44,7 @@ jobs:
             "expected-tps": 9.4
           }
         ]
-      snap-name: smollm2 # TODO: infer from the snap
+      snap-name: smollm2
     secrets:
       store-credentials: ${{ secrets.STORE_LOGIN_PR }}
       github-token: ${{ secrets.GITHUB_TOKEN }}
