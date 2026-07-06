@@ -1,4 +1,4 @@
-# SmolLM2 snap
+# SmolLM2 snap (change)
 [![smollm2](https://snapcraft.io/smollm2/badge.svg)](https://snapcraft.io/smollm2)
 
 Install [SmolLM2](https://huggingface.co/collections/HuggingFaceTB/smollm2), optimized directly for your hardware.
