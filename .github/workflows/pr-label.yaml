@@ -31,18 +31,18 @@ jobs:
           {
             "job-queue": "maas-systemtests-amd64",
             "provision-data": "distro: noble",
-            "select-engine": "cpu"
+            "select-engine": "cpu",
+            "test-chat-tps": true
           },
           {
             "job-queue": "anbox-nvidia-amd64",
             "provision-data": "distro: noble",
             "install-nvidia-driver-version": 595,
             "select-engine": "nvidia-gpu",
+            "test-chat-tps": true,
             "expected-tps": 9.4
           }
         ]
-      test-chat-tps: true
-      # test-image-prompt: true
       snap-name: smollm2 # TODO: infer from the snap
     secrets:
       store-credentials: ${{ secrets.STORE_LOGIN_PR }}
