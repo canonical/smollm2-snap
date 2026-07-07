@@ -1,3 +1,5 @@
+# This workflow is triggered when a label is added to a pull request.
+# It runs the build/test workflow depending on the label applied to the PR.
 name: PR Label
 
 on:
@@ -14,7 +16,6 @@ permissions:
   actions: read
 
 jobs:
-
   build-test:
     # The applied label is used to select build/test tasks and as job's display name.
     name: ${{ github.event.label.name }}
