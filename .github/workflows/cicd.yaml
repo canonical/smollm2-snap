@@ -1,3 +1,5 @@
+# This workflow is triggered when a push is made to the main branch or when manually triggered.
+# To skip a run on push, add [skip ci] to the commit message.
 name: CICD
 
 on:
