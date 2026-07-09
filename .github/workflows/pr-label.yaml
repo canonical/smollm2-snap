@@ -49,3 +49,6 @@ jobs:
     secrets:
       store-credentials: ${{ secrets.STORE_LOGIN_PR }}
       github-token: ${{ secrets.GITHUB_TOKEN }}
+      testflinger-client-id: ${{ secrets.TESTFLINGER_CLIENT_ID }}
+      testflinger-secret-key: ${{ secrets.TESTFLINGER_SECRET_KEY }}
+      
