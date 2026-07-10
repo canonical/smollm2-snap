@@ -46,6 +46,9 @@ jobs:
           }
         ]
       snap-name: smollm2
+      testflinger-client-id: ${{ vars.TESTFLINGER_CLIENT_ID }}
     secrets:
       store-credentials: ${{ secrets.STORE_LOGIN_PR }}
       github-token: ${{ secrets.GITHUB_TOKEN }}
+      testflinger-secret-key: ${{ secrets.TESTFLINGER_SECRET_KEY }}
+      
