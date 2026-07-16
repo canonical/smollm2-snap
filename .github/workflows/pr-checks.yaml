@@ -17,11 +17,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
-        with:
-          # Prevent usage of simulated merge commit of PR
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Lint package
         uses: canonical/inference-snaps-cli/.github/actions/lint-package@lint-package-action  # v2.0.0-beta.10
-        with:
-          package-dir: .
