@@ -11,9 +11,9 @@ devices:
 runtime: llamacpp
 
 model:
-  default: smollm2-135m-q4-k-m-gguf
+  default: smollm2-135m
   options:
-    - smollm2-135m-q4-k-m-gguf
+    - smollm2-135m
 
 configurations:
   sleep-idle-seconds: 600
