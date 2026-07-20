@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
-# Use a locally installed `hf` CLI if available; otherwise fall back to running via pipx.
-hf := $(shell command -v hf 2>/dev/null || echo 'pipx run --spec "huggingface_hub[cli]" hf')
+# Always run `hf` via pipx to avoid relying on local `hf` installations.
+hf := pipx run --spec "huggingface_hub[cli]" hf
 
 SNAP_NAME ?= smollm2
 ENGINE ?= cpu
@@ -19,8 +19,8 @@ help: ## Show this help message
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 install-deps: ## Init submodules and ensure the hf CLI is available	
-	@# If hf is not installed locally, ensure pipx is available for the fallback.
-	@command -v hf >/dev/null 2>&1 || command -v pipx >/dev/null 2>&1 || { \
+	@# Ensure pipx is available for running the hf CLI.
+	@command -v pipx >/dev/null 2>&1 || { \
 		sudo apt-get update; \
 		sudo apt-get install -y pipx; \
 	}
