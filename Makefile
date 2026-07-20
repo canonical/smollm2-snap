@@ -37,7 +37,7 @@ download-model-135m:
 
 init-submodules:
 	@echo "Initializing submodules..."
-	@if git submodule status --recursive | grep -q '^-'; then \
+	@if git submodule status | grep -q '^-'; then \
 		git submodule update --init; \
 	fi
 
