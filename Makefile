@@ -6,7 +6,7 @@ hf := pipx run --spec "huggingface_hub[cli]" hf
 SNAP_NAME ?= smollm2
 ENGINE ?= cpu
 
-.PHONY: help all prepare download-models download-model-135m build install upload smoke-test
+.PHONY: help all init init-submodules install-deps download-models download-model-135m build install upload smoke-test
 
 all: help
 
