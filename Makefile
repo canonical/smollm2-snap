@@ -14,28 +14,34 @@ help: ## Show this help message
 	@echo "Usage: make <target>"
 	@echo
 	@echo "Targets:"
+	@# List all targets with descriptions (lines starting with '##'):
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		sort | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
+		awk 'BEGIN {FS = ":.*?## "}; {printf "  %-11s %s\n", $$1, $$2}'
 
-install-deps: ## Init submodules and ensure the hf CLI is available	
+install-deps:
+	@echo "Installing dependencies..."
 	@# Ensure pipx is available for running the hf CLI.
 	@command -v pipx >/dev/null 2>&1 || { \
 		sudo apt-get update; \
 		sudo apt-get install -y pipx; \
 	}
 
-download-models: download-model-135m ## Download all models
+download-models: download-model-135m
 	
-download-model-135m: ## Download SmolLM2 135M Q4_K_M GGUF
+download-model-135m:
+	@echo "Downloading SmolLM2-135M-Instruct-GGUF model weights..."
 	$(hf) download unsloth/SmolLM2-135M-Instruct-GGUF \
     	SmolLM2-135M-Instruct-Q4_K_M.gguf \
     	--local-dir components/smollm2-135m-q4-k-m-gguf/
 
-init: # Initialize the development environment
+init-submodules:
+	@echo "Initializing submodules..."
 	@if git submodule status --recursive | grep -q '^-'; then \
 		git submodule update --init; \
 	fi
+
+init: init-submodules install-deps download-models ## Initialize the build environment (dependencies, model weights, submodules, etc.)
 
 build: init ## Build the snap
 	./dev/build.sh
