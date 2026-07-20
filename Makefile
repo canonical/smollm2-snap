@@ -15,9 +15,9 @@ help: ## Show this help message
 	@echo
 	@echo "Targets:"
 	@# List all targets with descriptions (lines starting with '##'):
-	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+	@grep -E '^[a-zA-Z0-9_-]+:.*## .*$$' $(MAKEFILE_LIST) | \
 		sort | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "  %-11s %s\n", $$1, $$2}'
+		awk 'BEGIN {FS = ":.*## "}; {printf "  %-11s %s\n", $$1, $$2}'
 
 install-deps:
 	@echo "Installing dependencies..."
