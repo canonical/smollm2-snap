@@ -25,7 +25,6 @@ jobs:
           ["amd64", "resolute", "self-hosted"]
         ]
       #   ["arm64", "resolute", "self-hosted", "medium"]
-      build-init-script: 'download-models.sh'
       store-track: latest
       snap-name: smollm2
       smoke-test-engine: cpu
