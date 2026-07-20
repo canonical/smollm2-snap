@@ -17,7 +17,7 @@ It runs efficiently on pure CPU or leverages hardware acceleration via NVIDIA GP
 
 Clone the repo:
 ```shell
-git clone https://github.com/canonical/smollm-snap
+git clone https://github.com/canonical/smollm2-snap
 ```
 
 Install dependencies:
