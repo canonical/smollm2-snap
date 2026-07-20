@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - test-init-fallback
   
   workflow_dispatch: # manual trigger 
 
@@ -18,7 +19,7 @@ concurrency:
 jobs:
   cicd:
     if: github.repository == 'canonical/smollm2-snap' # do not run on forks
-    uses: canonical/inference-snaps-dev/.github/workflows/reuse-cicd.yaml@v2
+    uses: canonical/inference-snaps-dev/.github/workflows/reuse-cicd.yaml@deprecate-init-script
     with:
       build-runner: |
         [
@@ -26,7 +27,7 @@ jobs:
           "ubuntu-24.04-arm"
         ]
       build-init-script: 'download-models.sh'
-      store-track: latest
+      store-track: bad
       snap-name: smollm2
       smoke-test-engine: cpu
       smoke-test-runner: |
