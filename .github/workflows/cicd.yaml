@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - main
-      - arm-build
   
   workflow_dispatch: # manual trigger 
 
@@ -27,7 +26,7 @@ jobs:
           "ubuntu-24.04-arm"
         ]
       build-init-script: 'download-models.sh'
-      store-track: test-latest
+      store-track: latest
       snap-name: smollm2
       smoke-test-engine: cpu
       smoke-test-runner: |
