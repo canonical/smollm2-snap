@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-# Use a locally installed `hf` CLI if available; otherwise fall back to pipx.
+# Use a locally installed `hf` CLI if available; otherwise fall back to running via pipx.
 hf := $(shell command -v hf 2>/dev/null || echo 'pipx run --spec "huggingface_hub[cli]" hf')
 
 SNAP_NAME ?= smollm2
@@ -18,9 +18,7 @@ help: ## Show this help message
 		sort | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-prepare: ## Init submodules and ensure the hf CLI is available
-	git submodule update --init
-	
+install-deps: ## Init submodules and ensure the hf CLI is available	
 	@# If hf is not installed locally, ensure pipx is available for the fallback.
 	@command -v hf >/dev/null 2>&1 || command -v pipx >/dev/null 2>&1 || { \
 		sudo apt-get update; \
@@ -34,14 +32,19 @@ download-model-135m: ## Download SmolLM2 135M Q4_K_M GGUF
     	SmolLM2-135M-Instruct-Q4_K_M.gguf \
     	--local-dir components/smollm2-135m-q4-k-m-gguf/
 
-build: ## Build the snap
+init: # Initialize the development environment
+	@if git submodule status --recursive | grep -q '^-'; then \
+		git submodule update --init; \
+	fi
+
+build: init ## Build the snap
 	./dev/build.sh
 
-install: ## Install the snap
+install: init ## Install the snap
 	./dev/install.sh
 
-upload: ## Upload the snap
+upload: init ## Upload the snap
 	./dev/upload.sh
 
-smoke-test: ## Run smoke tests (override with SNAP_NAME=... ENGINE=...)
+smoke-test: init ## Run smoke tests (override with SNAP_NAME=... ENGINE=...)
 	sudo ./dev/smoke-test.sh $(SNAP_NAME) $(ENGINE)

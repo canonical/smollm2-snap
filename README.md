@@ -15,16 +15,24 @@ It runs efficiently on pure CPU or leverages hardware acceleration via NVIDIA GP
 
 ## Build and install from source
 
-Clone this repo with its submodules:
+Clone the repo:
 ```shell
-git clone --recurse-submodules https://github.com/canonical/smollm-snap
+git clone https://github.com/canonical/smollm-snap
 ```
 
-Prepare the required models by running `download-models.sh`.
-
-Build the snap and its component:
+Install dependencies:
 ```shell
-snapcraft pack -v
+make install-deps
 ```
 
-Refer to the `./dev` directory for additional development tools.
+Download model weights:
+```shell
+make download-models
+```
+
+Build and install snap:
+```shell
+make build
+make install
+```
+
