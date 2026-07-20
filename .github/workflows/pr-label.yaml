@@ -23,7 +23,7 @@ jobs:
     with:
       trigger-label: ${{ github.event.label.name }}
       pr-number: "${{ github.event.pull_request.number }}"
-      build-runners: |
+      build-runner: |
         [
           "ubuntu-24.04",
           "ubuntu-24.04-arm"
