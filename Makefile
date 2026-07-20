@@ -10,6 +10,10 @@ ENGINE ?= cpu
 
 all: help
 
+#
+# Main targets
+#
+
 help: ## Show this help message
 	@echo "Usage: make <target>"
 	@echo
@@ -18,6 +22,24 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z0-9_-]+:.*## .*$$' $(MAKEFILE_LIST) | \
 		sort | \
 		awk 'BEGIN {FS = ":.*## "}; {printf "  %-11s %s\n", $$1, $$2}'
+
+init: init-submodules install-deps download-models ## Initialize the build environment (dependencies, model weights, submodules, etc.)
+
+build: init ## Build the snap
+	./dev/build.sh
+
+install: init ## Install the snap
+	./dev/install.sh
+
+upload: init ## Upload the snap
+	./dev/upload.sh
+
+smoke-test: init ## Run smoke tests (override with SNAP_NAME=... ENGINE=...)
+	sudo ./dev/smoke-test.sh $(SNAP_NAME) $(ENGINE)
+
+#
+# Supporting targets
+#
 
 install-deps:
 	@echo "Installing dependencies..."
@@ -40,17 +62,3 @@ init-submodules:
 	@if git submodule status | grep -q '^-'; then \
 		git submodule update --init; \
 	fi
-
-init: init-submodules install-deps download-models ## Initialize the build environment (dependencies, model weights, submodules, etc.)
-
-build: init ## Build the snap
-	./dev/build.sh
-
-install: init ## Install the snap
-	./dev/install.sh
-
-upload: init ## Upload the snap
-	./dev/upload.sh
-
-smoke-test: init ## Run smoke tests (override with SNAP_NAME=... ENGINE=...)
-	sudo ./dev/smoke-test.sh $(SNAP_NAME) $(ENGINE)
