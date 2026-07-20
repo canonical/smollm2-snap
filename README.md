@@ -20,14 +20,9 @@ Clone the repo:
 git clone https://github.com/canonical/smollm2-snap
 ```
 
-Install dependencies:
+Initialize the development environment:
 ```shell
-make install-deps
-```
-
-Download model weights:
-```shell
-make download-models
+make init
 ```
 
 Build and install snap:
