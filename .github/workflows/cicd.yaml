@@ -22,17 +22,17 @@ jobs:
     with:
       build-runner: |
         [
-          ["amd64", "resolute", "self-hosted"]
+          "ubuntu-24.04",
+          "ubuntu-24.04-arm"
         ]
-      #   ["arm64", "resolute", "self-hosted", "medium"]
       build-init-script: 'download-models.sh'
       store-track: latest
       snap-name: smollm2
       smoke-test-engine: cpu
       smoke-test-runner: |
         [
-          "ubuntu-24.04"
+          "ubuntu-24.04",
+          "ubuntu-24.04-arm"
         ]
-      #   "ubuntu-24.04-arm"
     secrets:
       store-credentials: ${{ secrets.STORE_LOGIN_MAIN }}

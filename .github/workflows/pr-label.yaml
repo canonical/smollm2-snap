@@ -23,11 +23,11 @@ jobs:
     with:
       trigger-label: ${{ github.event.label.name }}
       pr-number: "${{ github.event.pull_request.number }}"
-      # build-runners: |
-      #   [
-      #     ["amd64", "resolute", "self-hosted"],
-      #     ["arm64", "resolute", "self-hosted"]
-      #   ]
+      build-runner: |
+        [
+          "ubuntu-24.04",
+          "ubuntu-24.04-arm"
+        ]
       test-jobs-matrix: |
         [
           {
