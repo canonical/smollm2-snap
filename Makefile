@@ -49,6 +49,12 @@ install-deps:
 		sudo apt-get install -y pipx; \
 	}
 
+init-submodules:
+	@echo "Initializing submodules..."
+	@if git submodule status | grep -q '^-'; then \
+		git submodule update --init; \
+	fi
+
 download-models: download-model-135m
 	
 download-model-135m:
@@ -56,9 +62,3 @@ download-model-135m:
 	$(hf) download unsloth/SmolLM2-135M-Instruct-GGUF \
 		SmolLM2-135M-Instruct-Q4_K_M.gguf \
 		--local-dir components/smollm2-135m-q4-k-m-gguf/
-
-init-submodules:
-	@echo "Initializing submodules..."
-	@if git submodule status | grep -q '^-'; then \
-		git submodule update --init; \
-	fi
