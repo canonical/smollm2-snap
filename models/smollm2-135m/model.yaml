@@ -1,5 +1,5 @@
 name: smollm2-135m
-quantization: q4-k-m
+quantization: Q4_K_M
 disk-size: 101M
 
 description: |
