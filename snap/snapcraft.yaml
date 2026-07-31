@@ -143,7 +143,6 @@ parts:
     organize:
       "server.sh": bin/
       "server-webui.sh": bin/
-      "export-shared-configs.sh": bin/
 
   local-component-files:
     plugin: cmake # an out-of-source plugin to reduce copies on disk
