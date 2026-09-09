@@ -28,6 +28,7 @@ jobs:
       store-track: latest
       snap-name: smollm2
       smoke-test-engine: cpu
+      smoke-test-features: openai_models, openai_chat_text
       smoke-test-runner: |
         [
           "ubuntu-24.04",
