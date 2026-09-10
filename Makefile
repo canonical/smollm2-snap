@@ -61,4 +61,4 @@ download-model-135m:
 	@echo "Downloading SmolLM2-135M-Instruct-GGUF model weights..."
 	$(hf) download unsloth/SmolLM2-135M-Instruct-GGUF \
 		SmolLM2-135M-Instruct-Q4_K_M.gguf \
-		--local-dir components/smollm2-135m-q4-k-m-gguf/
+		--local-dir model-weights/smollm2-135m-q4-k-m-gguf/
