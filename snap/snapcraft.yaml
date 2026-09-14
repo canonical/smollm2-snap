@@ -99,7 +99,7 @@ parts:
   #   # source: ./inference-snaps-cli
   #   # Repo from GitHub:
   #   source: https://github.com/canonical/inference-snaps-cli.git
-  #   source-branch: share-provider
+  #   source-branch: <branch>
   #   plugin: go
   #   build-snaps:
   #     - go/1.26/stable
