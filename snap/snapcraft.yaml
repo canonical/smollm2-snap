@@ -98,6 +98,25 @@ parts:
 
       craftctl default
 
+  # To build the CLI from source, replace the above part with the following:
+  # If the source version is longer than 32 char, replace the versioning line with 'craftctl set version="dev"'
+  # cli:
+  #   # Repo checked out in the same project:
+  #   # source: ./inference-snaps-cli
+  #   # Repo from GitHub:
+  #   source: https://github.com/canonical/inference-snaps-cli.git
+  #   source-branch: <branch>
+  #   plugin: go
+  #   build-snaps:
+  #     - go/1.26/stable
+  #   override-build: |
+  #     craftctl default
+
+  #     # For tab completion
+  #     mkdir -p $CRAFT_PART_INSTALL/bin
+  #     cp completer/snap.bash $CRAFT_PART_INSTALL/bin/snap-completer.bash
+  #     ln --symbolic ./modelctl $CRAFT_PART_INSTALL/bin/smollm2
+      
   cli-lspci:
     plugin: nil
     stage-packages:
