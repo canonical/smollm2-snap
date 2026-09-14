@@ -42,10 +42,17 @@ platforms:
   amd64:
   arm64:
 
-# plugs:
+slots:
+  provider:
+    interface: content
+    content: inference-provider
+    source:
+      read:
+        - $SNAP_COMMON/share/provider
+plugs:
   # To allow side-loading models into server (root daemon) from user home directory
-  # home:
-  #   read: all
+  home:
+    read: all
 
 environment:
   SNAP_COMPONENTS: /snap/$SNAP_INSTANCE_NAME/components/$SNAP_REVISION
@@ -80,11 +87,10 @@ parts:
       cli_version=$($CRAFT_STAGE/bin/modelctl version --format=json | jq .cli --raw-output)
       git_hash=$(git -C "$SNAPCRAFT_PROJECT_DIR" describe --always)
       craftctl set version="${cli_version#v}+${git_hash}"
-
   cli:
     source:
-      - on amd64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.13/inference-snaps-cli-linux-amd64.tar.xz
-      - on arm64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.13/inference-snaps-cli-linux-arm64.tar.xz
+      - on amd64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.14/inference-snaps-cli-linux-amd64.tar.xz
+      - on arm64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.14/inference-snaps-cli-linux-arm64.tar.xz
     plugin: dump
     override-build: |
       # For tab completion
@@ -126,7 +132,7 @@ parts:
       mkdir -p $CRAFT_PART_INSTALL/usr/bin
       cp /usr/bin/nvidia-smi $CRAFT_PART_INSTALL/usr/bin/
       
-      license_dir=$CRAFT_PART_INSTALL/usr/share/doc/nvidia-utils-580/
+      license_dir=$CRAFT_PART_INSTALL/usr/share/doc/nvidia-utils-580
       mkdir -p $license_dir
       cp /usr/share/doc/nvidia-utils-580/copyright $license_dir/
 
