@@ -1,9 +1,29 @@
-# SmolLM2 snap
+# SmolLM2 inference snap
 [![smollm2](https://snapcraft.io/smollm2/badge.svg)](https://snapcraft.io/smollm2)
 
-Install [SmolLM2](https://huggingface.co/collections/HuggingFaceTB/smollm2), optimized directly for your hardware.
-This package deploys a high-performance runtime for local inference across arm and x86 platforms.
-It runs efficiently on pure CPU or leverages hardware acceleration via NVIDIA GPUs.
+SmolLM2 is a compact large language model (LLM) developed by Hugging Face, designed for efficient natural language tasks such as text generation, summarization, and question answering.
+
+Use this snap to quickly install an optimized environment for local inference with SmolLM2.
+
+The snap includes the following hardware-optimized inference engines:
+
+* cpu: Optimized for x64 and ARM (armv8, armv9) CPUs
+* nvidia-gpu: CUDA-enabled GPU acceleration
+
+The most suitable engine is automatically selected based on the available hardware.
+
+#### Install
+```shell
+sudo snap install smollm2
+```
+
+#### Run
+```shell
+smollm2
+```
+
+> [!TIP]
+> Some accelerators require extra [drivers](https://documentation.ubuntu.com/inference-snaps/how-to/setup/drivers/) to be usable with this snap.
 
 ## Resources
 
@@ -18,6 +38,7 @@ It runs efficiently on pure CPU or leverages hardware acceleration via NVIDIA GP
 Clone the repo:
 ```shell
 git clone https://github.com/canonical/smollm2-snap
+cd smollm2-snap
 ```
 
 Initialize the development environment:
@@ -30,4 +51,3 @@ Build and install snap:
 make build
 make install
 ```
-
