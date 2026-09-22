@@ -1,18 +1,3 @@
-<!--
-# This is the name of the snap. The name that is registered on the snap store and also the name of the cli command.
-snap-name: smollm2
-# This name is just a friendly name for the snap, it can be used in the documentation
-snap-friendly-name: SmolLM2
-# URL to model card from the model publisher
-model-card: https://huggingface.co/collections/HuggingFaceTB/smollm2
-# The port that the inference snap will use for its API server.
-http-port: 8344
-# The port that the inference snap will use for its webui server.
-webui-http-port: 8345
-# Optimizations
-engines: cpu, nvidia-gpu
--->
-
 # SmolLM2 inference snap
 [![smollm2](https://snapcraft.io/smollm2/badge.svg)](https://snapcraft.io/smollm2)
 
