@@ -13,12 +13,12 @@ The snap includes the following hardware-optimized inference engines:
 The most suitable engine is automatically selected based on the available hardware.
 
 #### Install
-```
+```shell
 sudo snap install smollm2
 ```
 
 #### Run
-```
+```shell
 smollm2
 ```
 
