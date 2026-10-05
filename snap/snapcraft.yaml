@@ -146,28 +146,12 @@ parts:
 
   cli-intel-opencl-icd:
     plugin: nil
+    source: https://github.com/canonical/intel-compute-runtime-bundle/archive/refs/tags/26.22.38646.4.tar.gz
     build-packages:
+      - make
       - wget
     override-build: |
-      set -eu
-      if [ "$CRAFT_ARCH_BUILD_FOR" = "amd64" ]; then
-        # Install legacy ICDs first so current drivers can override shared files.
-        mkdir -p "$CRAFT_PART_BUILD/icd-legacy"
-        cd "$CRAFT_PART_BUILD/icd-legacy"
-        wget -nv https://github.com/intel/compute-runtime/releases/download/24.35.30872.36/intel-opencl-icd-legacy1_24.35.30872.36_amd64.deb
-        for deb in *.deb; do
-          dpkg-deb --extract "$deb" "$CRAFT_PART_INSTALL"
-        done
-
-        mkdir -p "$CRAFT_PART_BUILD/icd-latest"
-        cd "$CRAFT_PART_BUILD/icd-latest"
-        wget -nv https://github.com/intel/compute-runtime/releases/download/26.22.38646.4/intel-opencl-icd_26.22.38646.4-0_amd64.deb
-        wget -nv https://github.com/intel/compute-runtime/releases/download/26.22.38646.4/libigdgmm12_22.10.0_amd64.deb
-        for deb in *.deb; do
-          dpkg-deb --extract "$deb" "$CRAFT_PART_INSTALL"
-        done
-        cd "$CRAFT_PART_BUILD"
-      fi
+      make -C "$CRAFT_PART_SRC" -f Makefile.icd install
       craftctl default
 
   # Used for NVIDIA vRAM and CUDA Capability detection.
@@ -274,35 +258,15 @@ parts:
 
   intel-compute-runtime:
     plugin: nil
+    source: https://github.com/canonical/intel-compute-runtime-bundle/archive/refs/tags/26.22.38646.4.tar.gz
     build-packages:
+      - make
       - wget
     stage-packages:
       - on amd64:
           - ocl-icd-libopencl1
     override-build: |
-      set -eu
-      if [ "$CRAFT_ARCH_BUILD_FOR" = "amd64" ]; then
-        # Install legacy drivers first so current drivers can override shared files.
-        mkdir -p "$CRAFT_PART_BUILD/opencl-intel-legacy1"
-        cd "$CRAFT_PART_BUILD/opencl-intel-legacy1"
-        wget -nv https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.17537.24/intel-igc-core_1.0.17537.24_amd64.deb
-        wget -nv https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.17537.24/intel-igc-opencl_1.0.17537.24_amd64.deb
-        wget -nv https://github.com/intel/compute-runtime/releases/download/24.35.30872.36/intel-level-zero-gpu-legacy1_1.5.30872.36_amd64.deb
-        for deb in *.deb; do
-          dpkg-deb --extract "$deb" "$CRAFT_PART_INSTALL"
-        done
-
-        mkdir -p "$CRAFT_PART_BUILD/opencl-intel"
-        cd "$CRAFT_PART_BUILD/opencl-intel"
-        wget -nv https://github.com/intel/intel-graphics-compiler/releases/download/v2.36.3/intel-igc-core-2_2.36.3+21719_amd64.deb
-        wget -nv https://github.com/intel/intel-graphics-compiler/releases/download/v2.36.3/intel-igc-opencl-2_2.36.3+21719_amd64.deb
-        wget -nv https://github.com/intel/compute-runtime/releases/download/26.22.38646.4/intel-ocloc_26.22.38646.4-0_amd64.deb
-        wget -nv https://github.com/intel/compute-runtime/releases/download/26.22.38646.4/libze-intel-gpu1_26.22.38646.4-0_amd64.deb
-        for deb in *.deb; do
-          dpkg-deb --extract "$deb" "$CRAFT_PART_INSTALL"
-        done
-        cd "$CRAFT_PART_BUILD"
-      fi
+      make -C "$CRAFT_PART_SRC" -f Makefile.compute-runtime install
       craftctl default
     organize:
       "*": (component/openvino-model-server)
