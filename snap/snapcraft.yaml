@@ -144,15 +144,14 @@ parts:
       - on amd64:
           - clinfo # Intel GPU vRAM detection
 
-  cli-intel-opencl-icd:
-    plugin: nil
-    source: https://github.com/canonical/intel-compute-runtime-bundle/archive/refs/tags/26.22.38646.4.tar.gz
+  intel-opencl-icd:
+    source: https://github.com/canonical/intel-compute-runtime-bundle.git
+    source-tag: 26.22.38646.4
+    plugin: make
+    make-parameters:
+      - BUNDLE=intel-opencl-icd
     build-packages:
-      - make
       - wget
-    override-build: |
-      make -C "$CRAFT_PART_SRC" -f Makefile.icd install
-      craftctl default
 
   # Used for NVIDIA vRAM and CUDA Capability detection.
   # Only the binary is included to avoid staging libraries, which should instead be provided by the host through the opengl interface.
@@ -257,22 +256,15 @@ parts:
     override-prime: *amd64-only
 
   intel-compute-runtime:
-    plugin: nil
-    source: https://github.com/canonical/intel-compute-runtime-bundle/archive/refs/tags/26.22.38646.4.tar.gz
+    source: https://github.com/canonical/intel-compute-runtime-bundle.git
+    source-tag: 26.22.38646.4
+    plugin: make
+    make-parameters:
+      - BUNDLE=intel-compute-runtime
     build-packages:
-      - make
       - wget
-    stage-packages:
-      - on amd64:
-          - ocl-icd-libopencl1
-    override-build: |
-      make -C "$CRAFT_PART_SRC" -f Makefile.compute-runtime install
-      craftctl default
     organize:
       "*": (component/openvino-model-server)
-    override-pull: *amd64-only
-    override-stage: *amd64-only
-    override-prime: *amd64-only
 
   notice:
     plugin: nil
