@@ -197,6 +197,7 @@ parts:
       - jq
     organize:
       "server.sh": bin/
+      "engine-server.sh": bin/
       "server-webui.sh": bin/
 
   model-weights:
