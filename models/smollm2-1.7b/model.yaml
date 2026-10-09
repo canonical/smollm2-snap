@@ -1,0 +1,17 @@
+name: smollm2-1.7b
+
+description: SmolLM2 1.7B, a compact text-only instruction-tuned model
+model-card-url: https://huggingface.co/unsloth/SmolLM2-1.7B-Instruct-GGUF
+format: GGUF
+quantization: Q4_K_M
+
+disk-size: 1007M
+
+capabilities:
+  - text
+
+components:
+  - smollm2-1-7b-q4-k-m-gguf
+
+environment:
+  - MODEL_FILE=$SNAP_COMPONENTS/smollm2-1-7b-q4-k-m-gguf/SmolLM2-1.7B-Instruct-Q4_K_M.gguf

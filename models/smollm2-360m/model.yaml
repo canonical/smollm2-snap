@@ -1,0 +1,17 @@
+name: smollm2-360m
+
+description: SmolLM2 360M, a compact text-only instruction-tuned model
+model-card-url: https://huggingface.co/unsloth/SmolLM2-360M-Instruct-GGUF
+format: GGUF
+quantization: Q4_K_M
+
+disk-size: 259M
+
+capabilities:
+  - text
+
+components:
+  - smollm2-360m-q4-k-m-gguf
+
+environment:
+  - MODEL_FILE=$SNAP_COMPONENTS/smollm2-360m-q4-k-m-gguf/SmolLM2-360M-Instruct-Q4_K_M.gguf

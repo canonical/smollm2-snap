@@ -2,8 +2,15 @@ name: intel-gpu
 summary: Optimized for Intel GPUs
 description: |
   This engine uses OpenVINO Model Server.
-  It is optimized for Intel Xe (Alchemist), Xe2 (Battlemage), Raptor Lake,
-  Meteor Lake, Lunar Lake, Arrow Lake, and Panther Lake GPUs.
+
+  It is optimized for a range of Intel GPU families, including:
+  - Xe Graphics (Alchemist)
+  - Xe2 Graphics (Battlemage)
+  - Raptor Lake
+  - Meteor Lake
+  - Lunar Lake
+  - Arrow Lake
+  - Panther Lake
 vendor: Canonical Ltd
 
 devices:
@@ -366,3 +373,4 @@ model:
   default: smollm2-360m-ov
   options:
     - smollm2-360m-ov
+    - smollm2-1.7b-ov
