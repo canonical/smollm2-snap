@@ -1,0 +1,17 @@
+name: smollm2-1.7b-ov
+
+description: SmolLM2 1.7B, a compact text-only instruction-tuned model, optimized for OpenVINO
+model-card-url: https://huggingface.co/AIFunOver/SmolLM2-1.7B-Instruct-openvino-8bit
+format: OpenVINO_IR
+quantization: INT8
+
+disk-size: 1641M
+
+capabilities:
+  - text
+
+components:
+  - smollm2-1-7b-int8-ov
+
+environment:
+  - MODEL_PATH=$SNAP_COMPONENTS/smollm2-1-7b-int8-ov

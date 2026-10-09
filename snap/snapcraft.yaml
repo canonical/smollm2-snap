@@ -209,7 +209,10 @@ parts:
       "llamacpp/*": (component/llamacpp)
       "llamacpp-cuda/*": (component/llamacpp-cuda)
       "smollm2-135m-q4-k-m-gguf/*": (component/smollm2-135m-q4-k-m-gguf)
+      "smollm2-360m-q4-k-m-gguf/*": (component/smollm2-360m-q4-k-m-gguf)
+      "smollm2-1-7b-q4-k-m-gguf/*": (component/smollm2-1-7b-q4-k-m-gguf)
       "smollm2-360m-int8-ov/*": (component/smollm2-360m-int8-ov)
+      "smollm2-1-7b-int8-ov/*": (component/smollm2-1-7b-int8-ov)
       
     prime:
       # Exclude everything not explicitly organized
@@ -287,6 +290,21 @@ components:
     type: standard
     summary: SmolLM2 360M Instruct INT8 OpenVINO
     description: Model weights for SmolLM2 360M Instruct in OpenVINO INT8 format
+
+  smollm2-360m-q4-k-m-gguf:
+    type: standard
+    summary: SmolLM2 360M Instruct Q4_K_M GGUF
+    description: Model weights for SmolLM2 360M Instruct in GGUF format
+
+  smollm2-1-7b-q4-k-m-gguf:
+    type: standard
+    summary: SmolLM2 1.7B Instruct Q4_K_M GGUF
+    description: Model weights for SmolLM2 1.7B Instruct in GGUF format
+
+  smollm2-1-7b-int8-ov:
+    type: standard
+    summary: SmolLM2 1.7B Instruct INT8 OpenVINO
+    description: Model weights for SmolLM2 1.7B Instruct in OpenVINO INT8 format
 
   openvino-model-server:
     type: standard
