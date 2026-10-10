@@ -8,6 +8,8 @@ Use this snap to quickly install an optimized environment for local inference wi
 The snap includes the following hardware-optimized inference engines:
 
 * cpu: Optimized for x64 and ARM (armv8, armv9) CPUs
+* intel-cpu: OpenVINO acceleration for Intel CPUs
+* intel-gpu: OpenVINO acceleration for supported Intel GPUs
 * nvidia-gpu: CUDA-enabled GPU acceleration
 
 The most suitable engine is automatically selected based on the available hardware.
