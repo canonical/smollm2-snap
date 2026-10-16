@@ -11,6 +11,8 @@ description: |
   The snap includes the following hardware-optimized inference engines:
 
   * cpu: Optimized for x64 and ARM (armv8, armv9) CPUs
+  * intel-cpu: OpenVINO acceleration for Intel CPUs
+  * intel-gpu: OpenVINO acceleration for supported Intel GPUs
   * nvidia-gpu: CUDA-enabled GPU acceleration
 
   The most suitable engine is automatically selected based on the available hardware.
@@ -68,8 +70,14 @@ plugs:
 environment:
   SNAP_COMPONENTS: /snap/$SNAP_INSTANCE_NAME/components/$SNAP_REVISION
   ARCH_TRIPLET: $CRAFT_ARCH_TRIPLET_BUILD_FOR
+  OCL_ICD_VENDORS: $SNAP/etc/OpenCL/vendors
 
 layout:
+  /etc/OpenCL/vendors:
+    bind: $SNAP/etc/OpenCL/vendors
+  # Intel ICD files refer to absolute library paths.
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/intel-opencl
   # Under wsl the libraries are expected in /usr/lib/wsl
   /usr/lib/wsl:
     bind: $SNAP_COMMON/usr/lib/wsl
@@ -100,8 +108,8 @@ parts:
       craftctl set version="${cli_version#v}+${git_hash}"
   cli:
     source:
-      - on amd64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.14/inference-snaps-cli-linux-amd64.tar.xz
-      - on arm64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.14/inference-snaps-cli-linux-arm64.tar.xz
+      - on amd64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.17/inference-snaps-cli-linux-amd64.tar.xz
+      - on arm64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.17/inference-snaps-cli-linux-arm64.tar.xz
     plugin: dump
     override-build: |
       # For tab completion
@@ -132,6 +140,17 @@ parts:
     plugin: nil
     stage-packages:
       - pciutils # lspci
+      - on amd64:
+          - clinfo # Intel GPU vRAM detection
+
+  intel-opencl-icd:
+    source: https://github.com/canonical/intel-compute-runtime-bundle.git
+    source-tag: 26.22.38646.4
+    plugin: make
+    make-parameters:
+      - BUNDLE=intel-opencl-icd
+    build-packages:
+      - wget
 
   # Used for NVIDIA vRAM and CUDA Capability detection.
   # Only the binary is included to avoid staging libraries, which should instead be provided by the host through the opengl interface.
@@ -178,6 +197,7 @@ parts:
       - jq
     organize:
       "server.sh": bin/
+      "engine-server.sh": bin/
       "server-webui.sh": bin/
 
   model-weights:
@@ -189,6 +209,7 @@ parts:
       "llamacpp/*": (component/llamacpp)
       "llamacpp-cuda/*": (component/llamacpp-cuda)
       "smollm2-135m-q4-k-m-gguf/*": (component/smollm2-135m-q4-k-m-gguf)
+      "smollm2-360m-int8-ov/*": (component/smollm2-360m-int8-ov)
       
     prime:
       # Exclude everything not explicitly organized
@@ -216,6 +237,35 @@ parts:
       "licenses": usr/share/doc/llama.cpp+cuda # Add licenses to the snap
       "*": (component/llamacpp-cuda)
 
+  openvino-model-server:
+    plugin: dump
+    source: https://github.com/openvinotoolkit/model_server/releases/download/v2026.2.1/ovms_ubuntu24_2026.2.1_python_off.tar.gz
+    stage-packages:
+      - on amd64:
+          - libxml2
+          - libcurl4
+    organize:
+      "LICENSE": usr/share/doc/openvino-model-server
+      "*": (component/openvino-model-server)
+    override-pull: &amd64-only |
+      if [ "$CRAFT_ARCH_BUILD_FOR" = "amd64" ]; then
+        craftctl default
+      fi
+    override-build: *amd64-only
+    override-stage: *amd64-only
+    override-prime: *amd64-only
+
+  intel-compute-runtime:
+    source: https://github.com/canonical/intel-compute-runtime-bundle.git
+    source-tag: 26.22.38646.4
+    plugin: make
+    make-parameters:
+      - BUNDLE=intel-compute-runtime
+    build-packages:
+      - wget
+    organize:
+      "*": (component/openvino-model-server)
+
   notice:
     plugin: nil
     source: NOTICE
@@ -232,6 +282,16 @@ components:
     type: standard
     summary: SmolLM2 135M Instruct Q4_K_M GGUF
     description: Model weights for SmolLM2 135M Instruct in GGUF format
+
+  smollm2-360m-int8-ov:
+    type: standard
+    summary: SmolLM2 360M Instruct INT8 OpenVINO
+    description: Model weights for SmolLM2 360M Instruct in OpenVINO INT8 format
+
+  openvino-model-server:
+    type: standard
+    summary: OpenVINO Model Server
+    description: OpenVINO Model Server with Intel CPU and GPU support
 
   llamacpp:
     type: standard
