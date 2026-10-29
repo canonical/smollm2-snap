@@ -1,0 +1,368 @@
+name: intel-gpu
+summary: Optimized for Intel GPUs
+description: |
+  This engine uses OpenVINO Model Server.
+  It is optimized for Intel Xe (Alchemist), Xe2 (Battlemage), Raptor Lake,
+  Meteor Lake, Lunar Lake, Arrow Lake, and Panther Lake GPUs.
+vendor: Canonical Ltd
+
+devices:
+  allof:
+    - type: cpu
+      architecture: amd64
+  anyof:
+    # DG2 / Xe Graphics
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f80
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f81
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f82
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f83
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f84
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f85
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f86
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f87
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4f88
+    # Arc / Alchemist
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5690
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5691
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5692
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5693
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5694
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5695
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5696
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5697
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x5698
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a0
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a1
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a2
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a3
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a4
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a5
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a6
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a7
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a8
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56a9
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56b0
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56b1
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56b2
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56b3
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56ba
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56bb
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56bc
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56bd
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56be
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x56bf
+    # Battlemage
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xe202
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xe20b
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xe20c
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xe20d
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xe210
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xe212
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xe215
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xe216
+    # Raptor Lake
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa720
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa721
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa780
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa781
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa782
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa783
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa788
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa789
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa78a
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa78b
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa7a0
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa7a1
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa7a8
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa7a9
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa7aa
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa7ab
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa7ac
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xa7ad
+    # Meteor Lake
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7dd5
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7d40
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7d55
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7d60
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7d45
+    # Lunar Lake
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x6420
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x64a0
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x64b0
+    # Arrow Lake
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb640
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7d41
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7d51
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7d67
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x7dd1
+    # Panther Lake
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb080
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb081
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb082
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb083
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb08f
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb090
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb0a0
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0xb0b0
+
+runtime: openvino-model-server
+
+model:
+  default: smollm2-360m-ov
+  options:
+    - smollm2-360m-ov

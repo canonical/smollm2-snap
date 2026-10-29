@@ -6,7 +6,7 @@ hf := pipx run --spec "huggingface_hub[cli]" hf
 SNAP_NAME ?= smollm2
 ENGINE ?= cpu
 
-.PHONY: help all init init-submodules install-deps download-models download-model-135m build install upload smoke-test
+.PHONY: help all init init-submodules install-deps download-models download-model-135m download-model-360m-ov build install upload smoke-test
 
 all: help
 
@@ -55,10 +55,18 @@ init-submodules:
 		git submodule update --init; \
 	fi
 
-download-models: download-model-135m
+download-models: download-model-135m download-model-360m-ov
 	
 download-model-135m:
 	@echo "Downloading SmolLM2-135M-Instruct-GGUF model weights..."
 	$(hf) download unsloth/SmolLM2-135M-Instruct-GGUF \
 		SmolLM2-135M-Instruct-Q4_K_M.gguf \
 		--local-dir model-weights/smollm2-135m-q4-k-m-gguf/
+
+download-model-360m-ov:
+	@echo "Downloading SmolLM2-360M-Instruct OpenVINO INT8 model weights..."
+	$(hf) download AIFunOver/SmolLM2-360M-Instruct-openvino-8bit \
+		--revision 4d5c9cbb82354e2f0929283ac5fa187761f43332 \
+		--local-dir model-weights/smollm2-360m-int8-ov/
+	@echo "OVMS writes graph.pbtxt at runtime; pointing it to /tmp because component files are read-only..."
+	ln -sf /tmp/smollm2-360m-int8-ov-graph.pbtxt model-weights/smollm2-360m-int8-ov/graph.pbtxt
