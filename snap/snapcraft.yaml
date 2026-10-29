@@ -108,8 +108,8 @@ parts:
       craftctl set version="${cli_version#v}+${git_hash}"
   cli:
     source:
-      - on amd64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.17/inference-snaps-cli-linux-amd64.tar.xz
-      - on arm64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.17/inference-snaps-cli-linux-arm64.tar.xz
+      - on amd64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.18/inference-snaps-cli-linux-amd64.tar.xz
+      - on arm64: https://github.com/canonical/inference-snaps-cli/releases/download/v2.0.0-beta.18/inference-snaps-cli-linux-arm64.tar.xz
     plugin: dump
     override-build: |
       # For tab completion
@@ -168,7 +168,7 @@ parts:
 
   webui:
     plugin: dump
-    source: https://github.com/canonical/inference-snaps-webui/releases/download/v1.1.0/inference-snaps-webui.tar.xz
+    source: https://github.com/canonical/inference-snaps-webui/releases/download/v1.1.1/inference-snaps-webui.tar.xz
     organize:
       "*": webui/
 
@@ -218,8 +218,8 @@ parts:
   llamacpp:
     plugin: dump
     source: 
-      - on amd64: https://github.com/canonical/llama.cpp-builds/releases/download/b10344/llamacpp-amd64.tar.gz
-      - on arm64: https://github.com/canonical/llama.cpp-builds/releases/download/b10344/llamacpp-arm64.tar.gz
+      - on amd64: https://github.com/canonical/llama.cpp-builds/releases/download/b11669/llamacpp-amd64.tar.gz
+      - on arm64: https://github.com/canonical/llama.cpp-builds/releases/download/b11669/llamacpp-arm64.tar.gz
     stage-packages:
       - libgomp1
     organize:
@@ -229,8 +229,8 @@ parts:
   llamacpp-cuda:
     plugin: dump
     source: 
-      - on amd64: https://github.com/canonical/llama.cpp-builds/releases/download/b10344/llamacpp-amd64+cuda12.9.tar.gz
-      - on arm64: https://github.com/canonical/llama.cpp-builds/releases/download/b10344/llamacpp-arm64+cuda12.9.tar.gz
+      - on amd64: https://github.com/canonical/llama.cpp-builds/releases/download/b11669/llamacpp-amd64+cuda12.9.tar.gz
+      - on arm64: https://github.com/canonical/llama.cpp-builds/releases/download/b11669/llamacpp-arm64+cuda12.9.tar.gz
     stage-packages:
       - libgomp1
     organize:
