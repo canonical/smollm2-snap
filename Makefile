@@ -84,7 +84,6 @@ download-model-360m-ov:
 		--local-dir model-weights/smollm2-360m-int8-ov/
 	@echo "OVMS writes graph.pbtxt at runtime; pointing it to /tmp because component files are read-only..."
 	ln -sf /tmp/smollm2-360m-int8-ov-graph.pbtxt model-weights/smollm2-360m-int8-ov/graph.pbtxt
-
 download-model-1.7b-ov:
 	@echo "Downloading SmolLM2-1.7B-Instruct OpenVINO INT8 model weights..."
 	$(hf) download AIFunOver/SmolLM2-1.7B-Instruct-openvino-8bit \
