@@ -12,6 +12,19 @@ if [ -n "${MMPROJ_FILE:-}" ]; then
 fi
 
 set -x
+
+echo "==DEVICES=="
+if ! devices="$(llama-server --list-devices 2>&1)"; then
+  printf '%s\n' "$devices" >&2
+  exit 1
+fi
+printf '%s\n' "$devices"
+if ! grep -qE '^[[:space:]]*CUDA[0-9]+:' <<< "$devices"; then
+  echo "No CUDA device found; refusing to start the server." >&2
+  exit 1
+fi
+
+echo "==STARTING SERVER=="
 # Adding --no-warmup to skip the model warmup phase during server startup in order to reduce resource usage if not needed.
 exec llama-server \
   --model "$MODEL_FILE" \
