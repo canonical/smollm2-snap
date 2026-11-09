@@ -259,7 +259,7 @@ parts:
         craftctl default
       fi
     override-build: |
-      if [ "$CRAFT_ARCH_BUILD_FOR" == "amd64" ]; then
+      if [ "$CRAFT_ARCH_BUILD_FOR" = "amd64" ]; then
         # Move license files to be included in the snap, not the component
         license_dir=$CRAFT_PRIME/usr/share/doc/openvino-model-server
         mkdir -p $license_dir
