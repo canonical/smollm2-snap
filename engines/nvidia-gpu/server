@@ -14,11 +14,6 @@ fi
 cuda_check_attempts=3
 cuda_check_delay=10
 for ((attempt = 1; attempt <= cuda_check_attempts; attempt++)); do
-  echo "Listing CUDA devices"
-  ls -lah /dev/nvidia*
-  echo "Listing CUDA libraries"
-  ls -lah /var/lib/snapd/lib/gl/
-
   if devices="$(llama-server --list-devices 2>&1)"; then
     printf '%s\n' "$devices"
     if grep -qE '^[[:space:]]*CUDA[0-9]+:' <<< "$devices"; then
