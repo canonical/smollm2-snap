@@ -5,6 +5,7 @@ description: |
   It is optimized for a range of Intel GPU families, including:
   - Xe Graphics (Alchemist)
   - Xe2 Graphics (Battlemage)
+  - Alder Lake
   - Raptor Lake
   - Meteor Lake
   - Lunar Lake
@@ -204,6 +205,11 @@ devices:
       vram: 1G
       vendor-id: 0x8086
       device-id: 0xe216
+    # Alder Lake
+    - type: gpu
+      vram: 1G
+      vendor-id: 0x8086
+      device-id: 0x4680
     # Raptor Lake
     - type: gpu
       vram: 1G
