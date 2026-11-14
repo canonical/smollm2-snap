@@ -17,3 +17,4 @@ model:
   default: smollm2-360m-ov
   options:
     - smollm2-360m-ov
+    - smollm2-1.7b-ov
