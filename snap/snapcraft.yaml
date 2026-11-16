@@ -252,16 +252,32 @@ parts:
     
   llamacpp-cuda:
     plugin: dump
-    source: 
+    source:
       - on amd64: https://github.com/canonical/llama.cpp-builds/releases/download/v0.5.0/llamacpp-amd64+cuda12.9.tar.gz
       - on arm64: https://github.com/canonical/llama.cpp-builds/releases/download/v0.5.0/llamacpp-arm64+cuda12.9.tar.gz
+      # No CUDA artifact exists for riscv64: use a placeholder source (required
+      # by snapcraft) and skip the part entirely below, mirroring how
+      # openvino-model-server is gated to amd64. The component is packed empty
+      # on this architecture, exactly like the openvino component on arm64.
+      - on riscv64: ./snap/placeholder
     stage-packages:
-      - libgomp1
+      - on amd64:
+          - libgomp1
+      - on arm64:
+          - libgomp1
+    override-pull: &not-riscv64 |
+      if [ "$CRAFT_ARCH_BUILD_FOR" != "riscv64" ]; then
+        craftctl default
+      fi
     override-build: |
-      # Move license files to be included in the snap, not the component
-      mkdir -p $CRAFT_PRIME/usr/share/doc/
-      mv licenses $CRAFT_PRIME/usr/share/doc/llama.cpp+cuda
-      craftctl default
+      if [ "$CRAFT_ARCH_BUILD_FOR" != "riscv64" ]; then
+        # Move license files to be included in the snap, not the component
+        mkdir -p $CRAFT_PRIME/usr/share/doc/
+        mv licenses $CRAFT_PRIME/usr/share/doc/llama.cpp+cuda
+        craftctl default
+      fi
+    override-stage: *not-riscv64
+    override-prime: *not-riscv64
     organize:
       "*": (component/llamacpp-cuda)
 
