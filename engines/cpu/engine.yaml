@@ -7,6 +7,15 @@ devices:
       architecture: amd64
     - type: cpu
       architecture: arm64
+    # RISC-V: the llamacpp component on riscv64 is built with
+    # GGML_CPU_RISCV64_SPACEMIT=ON - a single artifact with runtime hardware
+    # dispatch. It requires an RVA23-class CPU (RVV 1.0) and automatically
+    # engages the SpacemiT A100 "AI core" IME matrix instructions and TCM on
+    # SpacemiT boards running the vendor BSP kernel; on all other riscv64
+    # systems it uses the portable RVV kernels. No separate engine entry is
+    # needed for SpacemiT - the binary finds its own silicon.
+    - type: cpu
+      architecture: riscv64
 
 runtime: llamacpp
 

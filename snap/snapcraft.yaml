@@ -10,7 +10,8 @@ description: |
 
   The snap includes the following hardware-optimized inference engines:
 
-  * cpu: Optimized for x64 and ARM (armv8, armv9) CPUs
+  * cpu: Optimized for x64 and ARM (armv8, armv9) CPUs, and RISC-V (RVA23,
+    with automatic SpacemiT IME acceleration on supported boards)
   * intel-cpu: OpenVINO acceleration for Intel CPUs
   * intel-gpu: OpenVINO acceleration for supported Intel GPUs
   * nvidia-gpu: CUDA-enabled GPU acceleration
@@ -54,6 +55,7 @@ assumes:
 platforms:
   amd64:
   arm64:
+  riscv64:
 
 slots:
   provider:
@@ -110,6 +112,10 @@ parts:
     source:
       - on amd64: https://github.com/canonical/inference-snaps/releases/download/v2.0.0-rc.1/modelctl-linux-amd64.tar.xz
       - on arm64: https://github.com/canonical/inference-snaps/releases/download/v2.0.0-rc.1/modelctl-linux-arm64.tar.xz
+      # TODO: build and publish modelctl-linux-riscv64.tar.xz on inference-snaps
+      # releases instead of shipping the tarball in-tree, once riscv64 is a
+      # supported platform there.
+      - on riscv64: ./modelctl-linux-riscv64.tar.xz
     plugin: dump
     override-build: |
       # For tab completion
@@ -157,14 +163,19 @@ parts:
   cli-nvidia-smi:
     plugin: nil
     build-packages:
-      - nvidia-utils-580
+      - on amd64:
+          - nvidia-utils-580
+      - on arm64:
+          - nvidia-utils-580
     override-build: |
-      mkdir -p $CRAFT_PART_INSTALL/usr/bin
-      cp /usr/bin/nvidia-smi $CRAFT_PART_INSTALL/usr/bin/
-      
-      license_dir=$CRAFT_PART_INSTALL/usr/share/doc/nvidia-utils-580
-      mkdir -p $license_dir
-      cp /usr/share/doc/nvidia-utils-580/copyright $license_dir/
+      if [ "$CRAFT_ARCH_BUILD_FOR" != "riscv64" ]; then
+        mkdir -p $CRAFT_PART_INSTALL/usr/bin
+        cp /usr/bin/nvidia-smi $CRAFT_PART_INSTALL/usr/bin/
+
+        license_dir=$CRAFT_PART_INSTALL/usr/share/doc/nvidia-utils-580
+        mkdir -p $license_dir
+        cp /usr/share/doc/nvidia-utils-580/copyright $license_dir/
+      fi
 
   webui:
     plugin: dump
@@ -217,9 +228,18 @@ parts:
 
   llamacpp:
     plugin: dump
-    source: 
+    source:
       - on amd64: https://github.com/canonical/llama.cpp-builds/releases/download/v0.5.0/llamacpp-amd64.tar.gz
       - on arm64: https://github.com/canonical/llama.cpp-builds/releases/download/v0.5.0/llamacpp-arm64.tar.gz
+      # riscv64: single artifact with runtime hardware dispatch - engages the
+      # SpacemiT A100 "AI core" IME matrix instructions + TCM automatically on
+      # SpacemiT boards (vendor BSP kernel), falls back to portable RVV 1.0 on
+      # any other riscv64 system. Produced by the riscv64+spacemit job in
+      # llama.cpp-builds.
+      # TODO: switch to a canonical/llama.cpp-builds release URL once
+      # https://github.com/canonical/llama.cpp-builds/pull/35 is merged and
+      # a new release is tagged.
+      - on riscv64: https://github.com/jpm-canonical/llama.cpp-builds/releases/download/v1.0.0%2Briscv64/llamacpp-riscv64%2Bspacemit.tar.gz
     stage-packages:
       - libgomp1
     override-build: |
