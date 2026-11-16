@@ -250,6 +250,9 @@ parts:
       - on riscv64: https://github.com/jpm-canonical/llama.cpp-builds/releases/download/v1.0.0%2Briscv64/llamacpp-riscv64%2Bspacemit.tar.gz
     stage-packages:
       - libgomp1
+      # libatomic is a separate package on riscv64 (the SpacemiT toolchain
+      # links -latomic); on amd64/arm64 it comes with the base anyway.
+      - libatomic1
     override-build: |
       # Move license files to be included in the snap, not the component
       mkdir -p $CRAFT_PRIME/usr/share/doc/
