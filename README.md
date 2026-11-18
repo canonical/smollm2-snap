@@ -54,14 +54,16 @@ make build
 make install
 ```
 
-## Renovate runtime tests
+## Renovate PR checks
 
 Renovate PRs opt into lab testing with a standalone `lab-tests: true` line in
 the latest commit message (set `commitBody` in the relevant Renovate package
 rules). Tests run on PR creation, reopening, and updates.
 
-The `Renovate runtime gate` check passes for non-Renovate PRs. For Renovate PRs,
-it requires the marker and successful lab tests. Configure this check, `cla`,
+The `Renovate Pr Checks` workflow skips lab tests and passes for non-Renovate
+PRs and Renovate PRs without the marker. When the marker is present on a
+Renovate PR, the `Renovate PR Checks` check requires successful lab tests.
+Configure this check, `cla`,
 and `lint` as required on `main` in a ruleset Renovate cannot bypass. Enable
 repository auto-merge and configure Renovate PR automerge for the selected
 dependencies separately; this workflow does not enable auto-merge itself.

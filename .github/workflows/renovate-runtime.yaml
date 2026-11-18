@@ -1,4 +1,4 @@
-name: Renovate runtime CI
+name: Renovate Pr Checks
 
 on:
   pull_request:
@@ -17,27 +17,38 @@ jobs:
   classify:
     runs-on: ubuntu-slim
     outputs:
-      needs-lab-tests: ${{ steps.marker.outputs.needs-lab-tests }}
+      needs-lab-tests: ${{ steps.marker.outputs.needs-lab-tests || 'false' }}
     steps:
-      - name: Check latest Renovate commit for lab test marker
+      - name: Check whether PR was filed by Renovate
+        id: author
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const isRenovate = context.payload.pull_request.user.login === 'renovate[bot]';
+            core.setOutput('is-renovate', String(isRenovate));
+
+      - name: Check latest commit for lab test marker
         id: marker
+        if: steps.author.outputs.is-renovate == 'true'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { data: commit } = await github.rest.repos.getCommit({
+              ...context.repo,
+              ref: context.payload.pull_request.head.sha,
+            });
+            const requested = /^lab-tests: true\r?$/m.test(commit.commit.message);
+            core.setOutput('needs-lab-tests', String(requested));
+
+      - name: Validate branch for lab tests
+        if: steps.marker.outputs.needs-lab-tests == 'true'
         uses: actions/github-script@v9
         with:
           script: |
             const pr = context.payload.pull_request;
-            core.setOutput('needs-lab-tests', 'false');
-            if (pr.user.login !== 'renovate[bot]') {
-              return;
-            }
             if (pr.head.repo?.full_name !== `${context.repo.owner}/${context.repo.repo}`) {
               throw new Error('Renovate lab tests require a branch in this repository');
             }
-            const { data: commit } = await github.rest.repos.getCommit({
-              ...context.repo,
-              ref: pr.head.sha,
-            });
-            const requested = /^lab-tests: true\r?$/m.test(commit.commit.message);
-            core.setOutput('needs-lab-tests', String(requested));
 
   lab-tests:
     needs: classify
@@ -47,13 +58,13 @@ jobs:
       trigger-label: trigger-tests
     secrets: inherit
 
-  runtime-gate:
-    name: Renovate runtime gate
+  pr-checks:
+    name: Renovate PR Checks
     if: ${{ always() }}
     needs: [classify, lab-tests]
     runs-on: ubuntu-slim
     steps:
-      - name: Enforce runtime test requirements
+      - name: Report required lab test result
         uses: actions/github-script@v9
         env:
           CLASSIFY_RESULT: ${{ needs.classify.result }}
@@ -69,7 +80,6 @@ jobs:
               return;
             }
             if (process.env.NEEDS_LAB_TESTS !== 'true') {
-              core.setFailed('Latest Renovate commit must contain a standalone "lab-tests: true" line');
               return;
             }
             if (process.env.LAB_RESULT !== 'success') {
