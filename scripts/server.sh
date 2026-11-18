@@ -1,11 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-read -r uptime _ < /proc/uptime
-if (( ${uptime%%.*} < 30 )); then
-    echo "System has been up for less than 30 seconds. Waiting for startup to complete..."
-    sleep 30
-    exit 1
-fi
+modelctl diagnose-issues --serve-fallback=openai
 
-exec modelctl run --share-provider --fallback-server -- "$SNAP/bin/engine-server.sh" "$@"
+engine="$(modelctl engine --format=json | jq -er .name)"
+exec modelctl run --share-provider -- "$SNAP/engines/$engine/server" "$@"
