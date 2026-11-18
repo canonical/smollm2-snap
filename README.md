@@ -53,3 +53,15 @@ Build and install snap:
 make build
 make install
 ```
+
+## Renovate runtime tests
+
+Renovate PRs opt into lab testing with a standalone `lab-tests: true` line in
+the latest commit message (set `commitBody` in the relevant Renovate package
+rules). Tests run on PR creation, reopening, and updates.
+
+The `Renovate runtime gate` check passes for non-Renovate PRs. For Renovate PRs,
+it requires the marker and successful lab tests. Configure this check, `cla`,
+and `lint` as required on `main` in a ruleset Renovate cannot bypass. Enable
+repository auto-merge and configure Renovate PR automerge for the selected
+dependencies separately; this workflow does not enable auto-merge itself.
