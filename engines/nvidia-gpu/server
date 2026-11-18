@@ -13,11 +13,12 @@ fi
 
 if ! devices="$(llama-server --list-devices 2>&1)"; then
   printf '%s\n' "$devices" >&2
-  echo "Failed to list devices; refusing to start the server." >&2
+  echo "Failed to query CUDA devices." >&2
   exit 1
 fi
 if ! grep -qE '^[[:space:]]*CUDA[0-9]+:' <<< "$devices"; then
-  echo "No CUDA device found; refusing to start the server." >&2
+  printf '%s\n' "$devices" >&2
+  echo "No CUDA device found." >&2
   exit 1
 fi
 
