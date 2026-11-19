@@ -1,13 +1,14 @@
 name: smollm2-360m-ov
-quantization: INT8
-disk-size: 371M
 
 description: |
-  SmolLM2-360M-Instruct is a compact instruction-tuned language model.
+  SmolLM2-360M-Instruct is a compact, text-only
+  instruction-tuned language model.
   This variant uses INT8 quantization and the OpenVINO format for efficient
   inference on Intel CPUs and GPUs.
+format: OpenVINO_IR
+quantization: INT8
+disk-size: 371M
 model-card-url: https://huggingface.co/AIFunOver/SmolLM2-360M-Instruct-openvino-8bit
-
 capabilities:
   - text
 
