@@ -53,3 +53,34 @@ Build and install snap:
 make build
 make install
 ```
+
+## RISC-V (riscv64)
+
+The `cpu` engine also targets **riscv64**. The `llamacpp` component on this
+architecture is built from llama.cpp with `GGML_CPU_RISCV64_SPACEMIT=ON`
+([riscv64+spacemit job](https://github.com/canonical/llama.cpp-builds) in
+llama.cpp-builds): a single artifact with runtime hardware dispatch.
+
+- On **SpacemiT boards** (Key Stone K1/K3) running the vendor BSP kernel, the
+  engine automatically detects and engages the A100 "AI core" cluster, the IME
+  `vmadot` matrix-extension instructions and TCM — no configuration needed
+  (look for `CPU_RISCV64_SPACEMIT:` lines in the logs).
+- On any other riscv64 system (including SpacemiT boards on mainline kernels),
+  the same binary falls back to portable RVV 1.0 kernels.
+
+Runtime requirements: an RVA23-class CPU (`rv64gcv` with
+`zba/zfh/zvfh/zicbop/zihintpause`). No separate SpacemiT engine entry is
+needed — the binary detects its own silicon at runtime.
+
+Building on a riscv64 host (e.g. a SpacemiT K3 with the vendor OS):
+
+```shell
+make init
+snapcraft --destructive-mode
+sudo snap install ./smollm2_*_riscv64.snap --dangerous
+smollm2 status   # engine auto-selection should pick the cpu engine
+```
+
+Note: the riscv64 modelctl binary is currently shipped in-tree
+(`modelctl-linux-riscv64.tar.xz`) until the inference-snaps CLI publishes
+riscv64 release assets.
