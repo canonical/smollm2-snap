@@ -1,0 +1,9 @@
+name: Probe
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  probe:
+    uses: canonical/inference-snaps-dev/.github/workflows/probe-outer.yaml@probe/job-workflow-context
+  
