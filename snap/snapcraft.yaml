@@ -270,7 +270,6 @@ parts:
     override-prime: *amd64-only
 
   intel-compute-runtime:
-    after: [intel-opencl-icd]
     source: https://github.com/canonical/intel-compute-runtime-bundle.git
     source-branch: intel-no-legacy
     plugin: make
@@ -278,16 +277,6 @@ parts:
       - BUNDLE=intel-compute-runtime
     build-packages:
       - wget
-    override-build: |
-      if [ "$CRAFT_ARCH_BUILD_FOR" = "amd64" ]; then
-        craftctl default
-
-        # OpenCL scans one vendor directory. Keep both ICDs visible to OVMS.
-        vendors="$CRAFT_PART_INSTALL/etc/OpenCL/vendors"
-        cp "$CRAFT_STAGE/etc/OpenCL/vendors/intel.icd" "$vendors/"
-        # The legacy library is in the component, not the snap's layout.
-        sed -i 's|.*/||' "$vendors/intel_legacy1.icd"
-      fi
     organize:
       "*": (component/openvino-model-server)
 
