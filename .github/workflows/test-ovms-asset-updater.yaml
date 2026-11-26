@@ -1,0 +1,42 @@
+name: Test OVMS asset updater
+
+on:
+  push:
+    branches: [test-ovms-asset-updater]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify OVMS asset (${{ matrix.case }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - case: historical
+            through: v2026.3
+            expected: /v2026.3/ovms_ubuntu24_2026.3.0_python_off.tar.gz
+          - case: latest
+            through: ""
+            expected: _python_off.tar.gz
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: canonical/inference-snaps-dev/.github/actions/update-ovms@8213373fd9b3be1c5a2a43385fa903028057bdd1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        with:
+          python-variant: "off"
+          release-through: ${{ matrix.through }}
+          verify-download: "true"
+      - name: Assert the expected source and checksum changes
+        env:
+          EXPECTED: ${{ matrix.expected }}
+        run: |
+          git diff --check
+          git diff --unified=0 -- snap/snapcraft.yaml | grep -F '+    source:' | grep -F -- "$EXPECTED"
+          git diff --unified=0 -- snap/snapcraft.yaml | grep -Ex '\+    source-checksum: sha256/[0-9a-f]{64}'
